@@ -9,7 +9,7 @@ module Api::PreDataSerializer
     collection = Paginator.call(args[:json], params[:page], params[:per_page])
     super collection_args_for_render(default_render_args(args), collection)
   rescue Paginator::DataNotPaginable
-   super default_render_args(args)
+    super default_render_args(args)
   end
 
   private

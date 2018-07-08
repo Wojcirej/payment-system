@@ -11,4 +11,8 @@ module RequestSpecsHelper
   def errors
     JSON.parse(response.body)["errors"]
   end
+
+  def message
+    JSON.parse(response.body)["message"]
+  end
 end

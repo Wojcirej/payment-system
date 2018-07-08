@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::EmployeesController, type: :request do
   let(:base_url) { "/api/employees" }
+  let(:number_of_json_keys) { 7 }
 
   describe "GET /api/employees" do
     let(:path) { base_url }
@@ -51,6 +52,58 @@ RSpec.describe Api::EmployeesController, type: :request do
 
       it "does not respond with errors" do
         expect(errors).to be_blank
+      end
+    end
+  end
+
+  describe "GET /api/employees/:id" do
+
+    context "when requested employee exist" do
+      let(:path) { "#{base_url}/#{employee.id}" }
+      let(:employee) { create(:employee) }
+
+      before do
+        get path
+      end
+
+      it "responds with HTTP 200 status" do
+        expect(response.status).to eq(200)
+      end
+
+      it "responds with requested employee" do
+        expect(data['id']).to eql(employee.id)
+      end
+
+      it "responds with serialized employee" do
+        expect(data.size).to eql(number_of_json_keys)
+      end
+
+      it "does not respond with errors" do
+        expect(errors).to be_blank
+      end
+    end
+
+    context "when employee with requested ID does not exist" do
+      let(:path) { "#{base_url}/-1" }
+
+      before do
+        get path
+      end
+
+      it "responds with HTTP 404 status" do
+        expect(response.status).to eq(404)
+      end
+
+      it "does not respond with any data" do
+        expect(data).not_to be_present
+      end
+
+      it "responds with message" do
+        expect(message).to be_present
+      end
+
+      it "responds with message about not existing record" do
+        expect(message).to eql("Couldn't find Employee with 'id'=-1")
       end
     end
   end
