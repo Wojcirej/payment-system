@@ -7,7 +7,7 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
       t.string :contract_type, null: false
       t.decimal :hourly_rate, scale: 2, precision: 10
       t.decimal :monthly_rate, scale: 2, precision: 10
-      t.decimal :provision, scale: 2, precision: 10
+      t.decimal :provision, null: false, default: 0.00, scale: 2, precision: 10
 
       t.timestamps
     end

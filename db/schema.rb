@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2018_07_08_104024) do
     t.string "contract_type", null: false
     t.decimal "hourly_rate", precision: 10, scale: 2
     t.decimal "monthly_rate", precision: 10, scale: 2
-    t.decimal "provision", precision: 10, scale: 2
+    t.decimal "provision", precision: 10, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

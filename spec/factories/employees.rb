@@ -4,6 +4,7 @@ FactoryBot.define do
     last_name { Faker::LordOfTheRings.character }
     address { Faker::LordOfTheRings.location }
     contract_type "contract agreement"
+    provision 0
   end
 
   trait :employment_contract do

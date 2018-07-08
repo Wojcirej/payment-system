@@ -15,7 +15,7 @@ RSpec.describe Employee, type: :model do
     it { expect(subject).to have_db_column(:contract_type).of_type(:string).with_options(null: false) }
     it { expect(subject).to have_db_column(:hourly_rate).of_type(:decimal).with_options(scale: 2, precision: 10) }
     it { expect(subject).to have_db_column(:monthly_rate).of_type(:decimal).with_options(scale: 2, precision: 10) }
-    it { expect(subject).to have_db_column(:provision).of_type(:decimal).with_options(scale: 2, precision: 10) }
+    it { expect(subject).to have_db_column(:provision).of_type(:decimal).with_options(null: false, default: 0.00, scale: 2, precision: 10) }
   end
 
   describe "validations" do
