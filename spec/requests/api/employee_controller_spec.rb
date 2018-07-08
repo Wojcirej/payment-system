@@ -13,6 +13,8 @@ RSpec.describe Api::EmployeesController, type: :request do
         get path
       end
 
+      it_behaves_like "paginable endpoint"
+
       it "responds with HTTP 200 status" do
         expect(response.status).to eq(200)
       end
@@ -36,6 +38,8 @@ RSpec.describe Api::EmployeesController, type: :request do
       before do
         get path
       end
+
+      it_behaves_like "paginable endpoint"
 
       it "responds with HTTP 200 status" do
         expect(response.status).to eq(200)

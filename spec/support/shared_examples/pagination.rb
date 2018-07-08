@@ -10,3 +10,15 @@ RSpec.shared_examples "paginator service" do
     expect(expected_elements_ids).to match_array(paginated_elements_ids)
   end
 end
+
+RSpec.shared_examples "paginable endpoint" do
+
+  it "includes 'meta' in response" do
+    expect(meta).to be_present
+  end
+
+  it "responds with pagination info in 'meta' key" do
+    expected_meta_keys = %w(currentPage nextPage prevPage totalPages totalCount)
+    expect(meta.keys).to match_array(expected_meta_keys)
+  end
+end
