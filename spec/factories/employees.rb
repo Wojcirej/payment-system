@@ -13,7 +13,7 @@ FactoryBot.define do
     hourly_rate nil
   end
 
-  trait :contract_agreement do
+  trait :agreement_contract do
     contract_type "contract agreement"
     hourly_rate 13.70
     monthly_rate nil

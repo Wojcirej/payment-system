@@ -9,7 +9,11 @@ module RequestSpecsHelper
   end
 
   def errors
-    JSON.parse(response.body)["errors"]
+    JSON.parse(response.body)["data"]["errors"]
+  end
+
+  def error_messages
+    JSON.parse(response.body)["data"]["errorMessages"]
   end
 
   def message

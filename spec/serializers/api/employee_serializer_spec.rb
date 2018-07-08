@@ -16,7 +16,7 @@ RSpec.describe Api::EmployeeSerializer do
   end
 
   context "when it is employee on 'contract agreement'" do
-    let(:employee) { build(:employee, :contract_agreement) }
+    let(:employee) { build(:employee, :agreement_contract) }
 
     it "serializes hourly rate under 'salary' key" do
       expect(subject.serializable_hash[:salary]).to eql(employee.hourly_rate.to_f)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Employee, type: :model do
-  subject { create(:employee, :contract_agreement) }
+  subject { create(:employee, :agreement_contract) }
   let(:permissible_contract_types) { Enums::ContractTypes::values }
 
   it "has valid factory" do
@@ -19,11 +19,11 @@ RSpec.describe Employee, type: :model do
   end
 
   describe "validations" do
-    it { expect(subject).to validate_presence_of(:first_name) }
-    it { expect(subject).to validate_presence_of(:last_name) }
-    it { expect(subject).to validate_inclusion_of(:contract_type).in_array(permissible_contract_types) }
+    it { expect(subject).to validate_presence_of(:first_name).with_message("Please specify employee's first name.") }
+    it { expect(subject).to validate_presence_of(:last_name).with_message("Please specify employee's last name.") }
+    it { expect(subject).to validate_inclusion_of(:contract_type).in_array(permissible_contract_types).with_message("Not supported type of contract.") }
     it { expect(subject).to validate_numericality_of(:hourly_rate).is_greater_than_or_equal_to(13.70) }
     it { expect(subject).to validate_numericality_of(:monthly_rate).is_greater_than_or_equal_to(2100.00) }
-    it { expect(subject).to validate_numericality_of(:provision).is_greater_than_or_equal_to(0) }
+    it { expect(subject).to validate_numericality_of(:provision).is_greater_than_or_equal_to(0).with_message("Provision must not be negative.") }
   end
 end
