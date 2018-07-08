@@ -7,6 +7,7 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'active_model_serializers', '~> 0.10.7'
 gem 'ruby-enum', '~> 0.7.2'
+gem 'kaminari', '~> 1.1', '>= 1.1.1'
 
 group :development, :test do
   gem 'pry', '~> 0.11.3'
