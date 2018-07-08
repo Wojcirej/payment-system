@@ -32,9 +32,21 @@ rspec
 ```
 
 # Deploy
+Make sure you have set up properly remotes:
 ```
-TBA
+git remote add staging https://git.heroku.com/payment-system-backend-stg.git
+git remote add production https://git.heroku.com/payment-system-backend.git
 ```
+Then for staging deploy run command:
+```
+ruby deploy.rb staging
+```
+Production deploy:
+```
+ruby deploy.rb production
+```
+To run migrations just add ```-m``` parameter
 
 # Live-demo
-TBA. Most likely some Heroku app.
+* [Staging](https://payment-system-backend-stg.herokuapp.com/)
+* [Production](https://payment-system-backend.herokuapp.com/)
