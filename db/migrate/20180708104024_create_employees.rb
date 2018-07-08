@@ -5,9 +5,9 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
       t.string :last_name, null: false
       t.string :address
       t.string :contract_type, null: false
-      t.decimal :hourly_rate, precision: 2
-      t.decimal :monthly_rate, precision: 2
-      t.decimal :provision, precision: 2
+      t.decimal :hourly_rate, scale: 2, precision: 10
+      t.decimal :monthly_rate, scale: 2, precision: 10
+      t.decimal :provision, scale: 2, precision: 10
 
       t.timestamps
     end
