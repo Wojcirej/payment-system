@@ -8,4 +8,12 @@ class Employee < ApplicationRecord
   validates_numericality_of :monthly_rate, greater_than_or_equal_to: 2100.00, allow_nil: true
   validates_numericality_of :provision, greater_than_or_equal_to: 0,
   message: "Provision must not be negative."
+
+  def employment_contract?
+    self.contract_type == "contract of employment"
+  end
+
+  def agreement_contract?
+    self.contract_type == "contract agreement"
+  end
 end

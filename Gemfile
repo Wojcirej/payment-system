@@ -13,6 +13,7 @@ gem 'kaminari', '~> 1.1', '>= 1.1.1'
 group :development, :test do
   gem 'pry', '~> 0.11.3'
   gem 'figaro', '~> 1.1', '>= 1.1.1'
+  gem 'awesome_print', '~> 1.8'
   gem 'rspec-rails', '~> 3.7', '>= 3.7.2'
   gem 'factory_bot_rails', '~> 4.10'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.2'
