@@ -5,7 +5,7 @@ FactoryBot.define do
     address { Faker::LordOfTheRings.location }
     contract_type { Enums::ContractTypes::values.sample }
     hourly_rate { contract_type == "contract agreement" ? 13.70 : nil }
-    monthly_rate { contract_type== "contract of employment" ? 3391 : nil }
+    monthly_rate { contract_type == "contract of employment" ? 3391 : nil }
     provision 0
   end
 
