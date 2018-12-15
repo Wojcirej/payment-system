@@ -20,6 +20,7 @@ group :development, :test do
   gem 'factory_bot_rails', '~> 4.10'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.2'
   gem 'database_cleaner', '~> 1.7'
+  gem 'simplecov', '~> 0.16.1', require: false
 end
 
 group :development do
