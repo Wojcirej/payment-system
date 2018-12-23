@@ -78,25 +78,7 @@ RSpec.describe Api::EmployeesController, type: :request do
     context "when employee with requested ID does not exist" do
       let(:path) { "#{base_url}/-1" }
 
-      before do
-        get path
-      end
-
-      it "responds with HTTP 404 status" do
-        expect(response.status).to eq(404)
-      end
-
-      it "does not respond with any data" do
-        expect(data).not_to be_present
-      end
-
-      it "responds with message" do
-        expect(message).to be_present
-      end
-
-      it "responds with message about not existing record" do
-        expect(message).to eql("Couldn't find Employee with 'id'=-1")
-      end
+      it_behaves_like "endpoint handling RecordNotFound", :get, Employee
     end
   end
 
@@ -147,6 +129,77 @@ RSpec.describe Api::EmployeesController, type: :request do
 
       it "responds with error messages" do
         expect(error_messages.size).to eq(4)
+      end
+    end
+  end
+
+  describe "DELETE /api/employees/:id" do
+
+    context "when Employee with requested ID does not exist" do
+      let(:path) { "#{base_url}/-1" }
+
+      it_behaves_like "endpoint handling RecordNotFound", :delete, Employee
+
+      it "does not delete any Employee" do
+        expect { delete path }.not_to change { Employee.count }
+      end
+    end
+
+    context "when Employee with requested ID exists" do
+      let(:path) { "#{base_url}/#{employee.id}" }
+      let!(:employee) { create(:employee) }
+
+      context "when Employee deleted with success" do
+
+        it "responds with HTTP 200 status" do
+          delete path
+          expect(response.status).to eq(200)
+        end
+
+        it "deletes Employee" do
+          expect { delete path }.to change { Employee.count }.by(-1)
+        end
+
+        it "responds with requested employee" do
+          delete path
+          expect(data['id']).to eql(employee.id)
+        end
+
+        it "responds with serialized employee" do
+          delete path
+          expect(data.size).to eql(number_of_json_keys)
+        end
+
+        it "does not respond with errors" do
+          delete path
+          expect(errors).to be_blank
+        end
+      end
+
+      context "when Employee not deleted with success" do
+
+        before do
+          allow_any_instance_of(Employee).to receive(:destroy).and_return(false)
+        end
+
+        it "responds with HTTP 422 status" do
+          delete path
+          expect(response.status).to eq(422)
+        end
+
+        it "does not delete any Employee" do
+          expect { delete path }.not_to change { Employee.count }
+        end
+
+        it "does not respond with data" do
+          delete path
+          expect(data).not_to be_present
+        end
+
+        it "responds with message about not deleted record" do
+          delete path
+          expect(message).to eq("Couldn't delete Employee with 'id'=#{employee.id}")
+        end
       end
     end
   end

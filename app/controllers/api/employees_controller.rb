@@ -1,5 +1,5 @@
 class Api::EmployeesController < ApplicationController
-  before_action :set_employee, only: :show
+  before_action :set_employee, only: [:show, :destroy]
 
   def index
     render json: Employee.all, status: :ok, each_serializer: Api::EmployeeSerializer
@@ -13,6 +13,16 @@ class Api::EmployeesController < ApplicationController
     @employee = EmployeeCreator.call(employee_params)
     status = @employee.persisted? ? :created : :unprocessable_entity
     render json: @employee, status: status, serializer: Api::EmployeeSerializer
+  end
+
+  def destroy
+    @employee.destroy
+    response_object = if @employee.destroyed?
+      { json: @employee, status: 200, serializer: Api::EmployeeSerializer }
+    else
+      { json: { message: "Couldn't delete Employee with 'id'=#{@employee.id}" }, status: 422 }
+    end
+    render response_object
   end
 
   private
