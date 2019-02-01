@@ -1,32 +1,27 @@
 module Employees
   class Creator
-    include ActiveModel::Model
-    include Employees::BaseValidations
-    include Employees::ContractMethods
-
-    attr_accessor :first_name, :last_name, :address, :contract_type, :hourly_rate,
-    :monthly_rate, :provision
+    attr_reader :params
 
     def initialize(params = {})
-      @first_name = params[:first_name]
-      @last_name = params[:last_name]
-      @address = params[:address]
-      @contract_type = params[:contract_type]
-      @hourly_rate = params[:hourly_rate]
-      @monthly_rate = params[:monthly_rate]
-      @provision = params[:provision]
+      @params = params
     end
 
-    def save
-      return Employee.create(
-        first_name: first_name,
-        last_name: last_name,
-        address: address,
-        contract_type: contract_type,
-        hourly_rate: hourly_rate,
-        monthly_rate: monthly_rate,
-        provision: provision
-      )
+    def self.call(params = {})
+      new(params).call
+    end
+
+    def call
+      creator = select_creator[params[:contract_type]] || Employees::Creators::Null
+      return creator.call(params)
+    end
+
+    private
+
+    def select_creator
+      {
+        "contract of employment" => Employees::Creators::OnEmploymentCreator,
+        "contract agreement" => Employees::Creators::OnAgreementCreator
+      }
     end
   end
 end

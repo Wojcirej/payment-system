@@ -10,7 +10,7 @@ class Api::EmployeesController < ApplicationController
   end
 
   def create
-    @employee = EmployeeCreator.call(employee_params)
+    @employee = Employees::Creator.call(employee_params)
     status = @employee.persisted? ? :created : :unprocessable_entity
     render json: @employee, status: status, serializer: Api::EmployeeSerializer
   end

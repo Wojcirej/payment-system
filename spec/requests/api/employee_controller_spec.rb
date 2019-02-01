@@ -123,12 +123,11 @@ RSpec.describe Api::EmployeesController, type: :request do
           expect(errors['firstName']).to include("Please specify employee's first name.")
           expect(errors['lastName']).to include("Please specify employee's last name.")
           expect(errors['contractType']).to include("Not supported type of contract.")
-          expect(errors['provision']).to include("Provision must not be negative.")
         end
       end
 
       it "responds with error messages" do
-        expect(error_messages.size).to eq(4)
+        expect(error_messages.size).to eq(3)
       end
     end
   end

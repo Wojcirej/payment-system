@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Employees::OnAgreementCreator do
-  subject { described_class.new(params) }
+RSpec.describe Employees::Creators::OnAgreementCreator do
+  subject { described_class.call(params) }
 
-  describe "#save" do
+  describe "#call" do
 
     context "when valid params" do
       let(:params) { build(:employee, :agreement_contract).attributes.with_indifferent_access }
@@ -11,18 +11,15 @@ RSpec.describe Employees::OnAgreementCreator do
       include_examples "Employee created"
 
       it "assigns 'contract_type' as 'contract agreement'" do
-        record = subject.save
-        expect(record.contract_type).to eq("contract agreement")
+        expect(subject.contract_type).to eq("contract agreement")
       end
 
       it "assigns 'hourly_rate' as in params" do
-        record = subject.save
-        expect(record.hourly_rate).to eq(params[:hourly_rate])
+        expect(subject.hourly_rate).to eq(params[:hourly_rate])
       end
 
       it "assigns 'monthly_rate' empty" do
-        record = subject.save
-        expect(record.monthly_rate).to be_nil
+        expect(subject.monthly_rate).to be_nil
       end
     end
 
