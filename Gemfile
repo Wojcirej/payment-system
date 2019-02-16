@@ -17,7 +17,7 @@ group :development, :test do
   gem 'figaro', '~> 1.1', '>= 1.1.1'
   gem 'awesome_print', '~> 1.8'
   gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
-  gem 'factory_bot', '~> 4.11', '>= 4.11.1'
+  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.1'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.3'
   gem 'database_cleaner', '~> 1.7'
   gem 'simplecov', '~> 0.16.1', require: false
