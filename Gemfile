@@ -21,6 +21,9 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.3'
   gem 'database_cleaner', '~> 1.7'
   gem 'simplecov', '~> 0.16.1', require: false
+  gem 'capybara', '~> 3.13', '>= 3.13.2'
+  gem 'capybara-screenshot', '~> 1.0', '>= 1.0.22'
+  gem 'cuprite', '~> 0.5.0'
 end
 
 group :development do
