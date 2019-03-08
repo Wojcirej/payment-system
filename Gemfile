@@ -12,6 +12,8 @@ gem 'kaminari', '~> 1.1', '>= 1.1.1'
 gem 'pry', '~> 0.12.2'
 gem 'pry-rails', '~> 0.3.9'
 gem 'faker', '~> 1.9', '>= 1.9.1'
+gem 'jwt', '~> 2.1'
+gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 
 group :development, :test do
   gem 'figaro', '~> 1.1', '>= 1.1.1'
@@ -24,6 +26,7 @@ group :development, :test do
   gem 'capybara', '~> 3.13', '>= 3.13.2'
   gem 'capybara-screenshot', '~> 1.0', '>= 1.0.22'
   gem 'cuprite', '~> 0.5.0'
+  gem 'timecop', '~> 0.9.1'
 end
 
 group :development do
