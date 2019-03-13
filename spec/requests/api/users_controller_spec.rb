@@ -4,7 +4,7 @@ RSpec.describe Api::UsersController, type: :request do
   let(:base_url) { "/api/users" }
   let(:number_of_json_keys) { 3 }
 
-  describe "POST /api/employees" do
+  describe "POST /api/users" do
     let(:path) { base_url }
 
     before do
@@ -57,6 +57,39 @@ RSpec.describe Api::UsersController, type: :request do
 
       it "responds with error messages" do
         expect(error_messages.size).to eq(5)
+      end
+    end
+  end
+
+  describe "POST /api/users/login" do
+    let(:path) { "#{base_url}/login/" }
+    let(:user) { create(:user) }
+
+    before do
+      post path, params: params.to_json
+    end
+
+    context "when valid credentials" do
+      let(:params) { { username: user.username, password: user.password } }
+
+      it "responds with HTTP 200 status" do
+        expect(response.status).to eq(200)
+      end
+
+      it "responds with message about successful login" do
+        expect(data['message']).to eq("Login successfully.")
+      end
+    end
+
+    context "when invalid credentials" do
+      let(:params) { { username: user.username, password: "Incorrect" } }
+
+      it "responds with HTTP 401 status" do
+        expect(response.status).to eq(401)
+      end
+
+      it "responds with message about incorrect password" do
+        expect(data['message']).to eq("Incorrect credentials, please try again.")
       end
     end
   end
