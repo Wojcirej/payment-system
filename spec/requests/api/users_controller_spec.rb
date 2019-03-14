@@ -62,6 +62,26 @@ RSpec.describe Api::UsersController, type: :request do
   end
 
   describe "POST /api/users/login" do
+
+    shared_examples "invalid credentials" do
+
+      it "responds with HTTP 401 status" do
+        expect(response.status).to eq(401)
+      end
+
+      it "responds with message about incorrect password" do
+        expect(data['message']).to eq("Incorrect credentials, please try again.")
+      end
+
+      it "responds with specified username" do
+        expect(data['username']).to eq(params[:username])
+      end
+
+      it "does not respond with token" do
+        expect(data['currentToken']).to be_blank
+      end
+    end
+
     let(:path) { "#{base_url}/login/" }
     let(:user) { create(:user) }
 
@@ -79,18 +99,26 @@ RSpec.describe Api::UsersController, type: :request do
       it "responds with message about successful login" do
         expect(data['message']).to eq("Login successfully.")
       end
+
+      it "responds with specified username" do
+        expect(data['username']).to eq(params[:username])
+      end
+
+      it "responds with token" do
+        expect(data['currentToken']).to be_present
+      end
     end
 
     context "when invalid credentials" do
       let(:params) { { username: user.username, password: "Incorrect" } }
 
-      it "responds with HTTP 401 status" do
-        expect(response.status).to eq(401)
-      end
+      include_examples "invalid credentials"
+    end
 
-      it "responds with message about incorrect password" do
-        expect(data['message']).to eq("Incorrect credentials, please try again.")
-      end
+    context "when no user with specified username" do
+      let(:params) { { username: "nonexistent", password: "nonexistent" } }
+
+      include_examples "invalid credentials"
     end
   end
 end

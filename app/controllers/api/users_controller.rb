@@ -7,8 +7,8 @@ class Api::UsersController < ApplicationController
   end
 
   def login
-    user = User.find_by(username: login_params[:username])
-    if user && user.authenticate(login_params[:password])
+    user = ::Users::Login.call(login_params)
+    if user.current_token
       status = 200
       serializer = Api::Users::LoginSuccessSerializer
     else
