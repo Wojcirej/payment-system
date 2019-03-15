@@ -13,16 +13,16 @@ RSpec.describe Users::Login do
         subject
       end
 
+      it "does not return any token" do
+        expect(subject[:token]).to be_blank
+      end
+
       it "returns not persisted user object" do
-        expect(subject.persisted?).to be false
+        expect(subject[:user].persisted?).to be false
       end
 
       it "returns user object with specified username" do
-        expect(subject.username).to eq(credentials[:username])
-      end
-
-      it "returns user object without token" do
-        expect(subject.current_token).to be nil
+        expect(subject[:user].username).to eq(credentials[:username])
       end
     end
 
@@ -37,16 +37,16 @@ RSpec.describe Users::Login do
           subject
         end
 
+        it "does not return any token" do
+          expect(subject[:token]).to be_blank
+        end
+
         it "returns persisted user object" do
-          expect(subject.persisted?).to be true
+          expect(subject[:user].persisted?).to be true
         end
 
         it "returns user object with specified username" do
-          expect(subject.username).to eq(credentials[:username])
-        end
-
-        it "returns user object without token" do
-          expect(subject.current_token).to be nil
+          expect(subject[:user].username).to eq(credentials[:username])
         end
       end
 
@@ -54,11 +54,11 @@ RSpec.describe Users::Login do
         let(:credentials) { { username: user.username, password: user.password } }
 
         it "returns persisted user object" do
-          expect(subject.persisted?).to be true
+          expect(subject[:user].persisted?).to be true
         end
 
         it "returns user object with specified username" do
-          expect(subject.username).to eq(credentials[:username])
+          expect(subject[:user].username).to eq(credentials[:username])
         end
 
         it "encodes token for user" do
@@ -66,8 +66,9 @@ RSpec.describe Users::Login do
           subject
         end
 
-        it "returns user object with token" do
-          expect(subject.current_token).to be_present
+        it "returns token encoded for user" do
+          token = subject[:token]
+          expect(JsonWebToken.decode(token)[:user_id]).to eq(user.id)
         end
       end
     end

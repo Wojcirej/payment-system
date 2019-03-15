@@ -7,15 +7,16 @@ class Api::UsersController < ApplicationController
   end
 
   def login
-    user = ::Users::Login.call(login_params)
-    if user.current_token
+    result = ::Users::Login.call(login_params)
+    if result[:token]
       status = 200
       serializer = Api::Users::LoginSuccessSerializer
+      response.headers['Authorization'] = result[:token]
     else
       status = 401
       serializer = Api::Users::LoginFailureSerializer
     end
-    render json: user, status: status, serializer: serializer
+    render json: result[:user], status: status, serializer: serializer
   end
 
   private

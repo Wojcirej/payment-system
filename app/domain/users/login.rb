@@ -2,6 +2,7 @@ class Users::Login
 
   def initialize(credentials)
     @credentials = credentials
+    @response_object = Hash.new
   end
 
   def self.call(credentials)
@@ -11,16 +12,15 @@ class Users::Login
   def call
     user = User.find_by(username: credentials[:username])
     if user.nil?
-      return User.new(username: credentials[:username])
+      response_object.merge!(user: User.new(username: credentials[:username]))
     elsif user.authenticate(credentials[:password])
-      user.current_token = JsonWebToken.encode({ user_id: user.id })
-      user.save
-      return user
+      response_object.merge!(user: user, token: JsonWebToken.encode({ user_id: user.id }))
     else
-      return user
+      response_object.merge!(user: user)
     end
+    return response_object
   end
 
   private
-  attr_reader :credentials
+  attr_reader :credentials, :response_object
 end

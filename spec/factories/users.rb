@@ -3,6 +3,5 @@ FactoryBot.define do
     username { "MyString" }
     password { "MyString" }
     email { "MyString" }
-    current_token { nil }
   end
 end

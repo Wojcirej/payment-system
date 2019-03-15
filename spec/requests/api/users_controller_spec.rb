@@ -77,8 +77,8 @@ RSpec.describe Api::UsersController, type: :request do
         expect(data['username']).to eq(params[:username])
       end
 
-      it "does not respond with token" do
-        expect(data['currentToken']).to be_blank
+      it "does not respond with token in 'Authorization' header" do
+        expect(response.headers['Authorization']).to be_blank
       end
     end
 
@@ -104,8 +104,8 @@ RSpec.describe Api::UsersController, type: :request do
         expect(data['username']).to eq(params[:username])
       end
 
-      it "responds with token" do
-        expect(data['currentToken']).to be_present
+      it "responds with token in 'Authorization' header" do
+        expect(response.headers['Authorization']).to be_present
       end
     end
 
