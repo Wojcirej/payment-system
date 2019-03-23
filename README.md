@@ -31,6 +31,9 @@ rails s
 rspec
 ```
 
+# End to end tests
+Are moved away from this repository to speed up set of development tests. See [this repo](https://github.com/Wojcirej/payment-system-end-to-end) for more details.
+
 # Deploy
 Make sure you have set up properly remotes:
 ```
