@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_config'
 
 RSpec.describe Employees::Creator do
   subject { described_class.call(params) }

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_config'
 
 RSpec.describe Users::Login do
   subject { described_class.call(credentials) }

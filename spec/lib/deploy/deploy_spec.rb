@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_config'
 require './lib/deploy/deploy'
 
 RSpec.describe Deploy do

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_config'
 
 RSpec.describe Api::Users::RegisterSerializer do
   subject { described_class.new(user) }

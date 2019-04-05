@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_config'
 
 RSpec.describe Employee, type: :model do
   subject { create(:employee) }

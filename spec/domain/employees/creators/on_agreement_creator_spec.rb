@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_config'
 
 RSpec.describe Employees::Creators::OnAgreementCreator do
   subject { described_class.call(params) }

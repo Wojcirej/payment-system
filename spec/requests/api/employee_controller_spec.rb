@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_config'
 
 RSpec.describe Api::EmployeesController, type: :request do
   let(:base_url) { "/api/employees" }

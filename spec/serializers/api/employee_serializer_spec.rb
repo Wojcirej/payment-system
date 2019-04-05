@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_config'
 
 RSpec.describe Api::EmployeeSerializer do
   subject { described_class.new(employee) }

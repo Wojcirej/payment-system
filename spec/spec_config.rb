@@ -1,5 +1,12 @@
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  add_group("Domain", "app/domain/")
+  add_group("Persistence", "app/models/")
+  add_group("API", "app/controllers/")
+  add_group("Serialization", "app/serializers/")
+  add_group("Libs", "lib/")
+  add_group("Deployment", "lib/deploy/")
+end
 
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_config'
 
 FactoryBot.factories.map(&:name).each do |factory_name|
   describe "The #{factory_name.capitalize} factory" do
