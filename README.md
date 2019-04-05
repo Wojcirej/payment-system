@@ -49,6 +49,12 @@ Production deploy:
 ruby deploy.rb production
 ```
 To run migrations just add ```-m``` parameter
+To bump version, just add ```-b``` param with version type (default is `patch`):
+- `patch` - change last number, e.g. 1.2.3 -> 1.2.4
+- `minor` - change middle number, e.g. 1.2.3 -> 1.3.0
+- `major` - change first number, e.g. 1.2.3 -> 2.0.0"
+
+Example: `ruby deploy.rb staging -b minor`
 
 # Live-demo
 * [Staging](https://payment-system-backend-stg.herokuapp.com/)

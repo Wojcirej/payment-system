@@ -6,7 +6,8 @@ include Stages
 
 options = {
   stage: :production,
-  migrations: false
+  migrations: false,
+  bump: false
 }
 
 parser = OptionParser.new do |opts|
@@ -17,6 +18,15 @@ DOC
 
   opts.on("-m", "--migrate", "Run `heroku run rake db:migrate` on choosen stage.") do |value|
     options[:migrations] = value
+  end
+
+  opts.on('-b [TYPE]', '--bump [TYPE]', [:patch, :minor, :major],
+        "Bump version,
+        [TYPE]: patch, minor, major - patch is default
+        - patch - change last number, e.g. 1.2.3 -> 1.2.4
+        - minor - change middle number, e.g. 1.2.3 -> 1.3.0
+        - major - change first number, e.g. 1.2.3 -> 2.0.0") do |type|
+    options[:bump] = type || :patch
   end
 
   opts.on_tail('-h', '--help', "Prints this help.") do

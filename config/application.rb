@@ -33,5 +33,7 @@ module PaymentSystemBackend
     config.generators do |generator|
       generator.orm :active_record, primary_key_type: :uuid
     end
+    require "#{Rails.root}/lib/version"
+    config.version = PaymentSystemBackend::VERSION
   end
 end

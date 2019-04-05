@@ -1,12 +1,12 @@
-require 'pry'
+require_relative 'versioner.rb'
 class Deploy
   include Stages
 
-  attr_accessor :stage, :migrations
-
   def initialize(options)
+    @options = options
     @stage = options[:stage]
     @migrations = options[:migrations]
+    @bump = options[:bump]
   end
 
   def self.run(options)
@@ -18,35 +18,69 @@ class Deploy
       puts "Deploy aborted - invalid stage!"
       return
     end
-    msg = "Deploying to #{stage}, #{with_or_without_migrations?} migrations..."
-    puts msg
-    run_migrations if migrations
-    push
+    puts full_deploy_message
+    bump_version if bump
+    if migrations
+      enable_maintenance_mode
+      push
+      run_migrations
+      disable_maintenance_mode
+    else
+      push
+    end
   end
 
   private
+  attr_reader :options, :stage, :migrations, :bump
 
-  def with_or_without_migrations?
-    migrations ? "with" : "without"
+  def full_deploy_message
+    "Deploying to #{stage}, #{migrations_message}, #{bump_message}..."
+  end
+
+  def migrations_message
+    migrations ? "with migrations" : "without migrations"
+  end
+
+  def bump_message
+    bump ? "with #{bump} bump" : "without version bump"
+  end
+
+  def enable_maintenance_mode
+    puts "Putting #{stage} in maintenance mode..."
+    system(enable_maintenance_mode_command)
+  end
+
+  def enable_maintenance_mode_command
+    "heroku maintenance:on --remote #{stage}"
   end
 
   def run_migrations
-    puts "Putting #{stage} in maintenance mode..."
-    system "heroku maintenance:on --remote #{stage}"
     puts "Running migrations..."
-    system "heroku run rake db:migrate --remote #{stage}"
+    system(run_migrations_command)
+  end
+
+  def run_migrations_command
+    "heroku run rake db:migrate --remote #{stage}"
+  end
+
+  def disable_maintenance_mode
     puts "Disabling maintenance mode on #{stage}..."
-    system "heroku maintenance:off --remote #{stage}"
+    system(disable_maintenance_mode_command)
+  end
+
+  def disable_maintenance_mode_command
+    "heroku maintenance:off --remote #{stage}"
   end
 
   def push
-    system "git push #{stage} #{branch[stage.to_sym]}:master"
+    system(push_command)
   end
 
-  def branch
-    {
-      "staging": "develop",
-      "production": "master"
-    }
+  def push_command
+    "git push #{stage} #{branch[stage.to_sym]}:master"
+  end
+
+  def bump_version
+    Versioner.call(options)
   end
 end
